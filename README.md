@@ -51,8 +51,8 @@ floating-point comparison behind the scenes, while maintaining the proper `equal
 1. **Add the annotation dependency and the compiler plugin classpath**:
     ```kotlin
     dependencies {
-        implementation("io.github.sergeylappo:fp-equality-compiler-plugin:0.0.1")
-        kotlinCompilerPluginClasspath("io.github.sergeylappo:fp-equality-compiler-plugin:0.0.1")
+        implementation("io.github.sergeylappo:fp-equality-compiler-plugin:0.0.2")
+        kotlinCompilerPluginClasspath("io.github.sergeylappo:fp-equality-compiler-plugin:0.0.2")
     }
     ```
 2. **Use the annotations** in your data classes:\\

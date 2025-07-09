@@ -6,7 +6,7 @@ package io.github.sergeylappo
  * This annotation can be applied to data classes and specific data classes fields.
  *
  * @property decimalPlaces The number of decimal places to use when performing
- * floating-point equality comparisons. The default value is 4.
+ * floating-point equality comparisons.
  * N.B. Floating point values would be rounded to required precision before comparison.
  */
-annotation class FloatEquality(val decimalPlaces: Int = 4)
+annotation class FloatEquality(val decimalPlaces: Int)

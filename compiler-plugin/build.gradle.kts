@@ -26,7 +26,7 @@ mavenPublishing  {
     publishToMavenCentral()
 
     coordinates(
-        "io.github.sergeylappo", "fp-equality-compiler-plugin", "0.0.1"
+        "io.github.sergeylappo", "fp-equality-compiler-plugin", "0.0.2"
     )
     pom {
         name = "fp-equality-compiler-plugin"

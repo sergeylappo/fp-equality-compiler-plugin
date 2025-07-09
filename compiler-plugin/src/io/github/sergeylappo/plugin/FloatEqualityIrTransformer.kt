@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.ir.builders.irCall
 import org.jetbrains.kotlin.ir.builders.irEquals
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.expressions.IrCall
+import org.jetbrains.kotlin.ir.expressions.IrConstructorCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.IrGetField
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstImpl
@@ -336,7 +337,7 @@ class FloatEqualityIrTransformer(
         argument: IrExpression?,
         useDouble: Boolean
     ): IrExpression {
-        val numberClass = if (useDouble) context.irBuiltIns.doubleClass else context.irBuiltIns.floatClass
+        val numberClass = if (useDouble) { context.irBuiltIns.doubleClass } else { context.irBuiltIns.floatClass }
         val method = numberClass.owner.declarations
             .filterIsInstance<IrSimpleFunction>()
             .first { it.name.asString() == methodName }
@@ -372,19 +373,18 @@ class FloatEqualityIrTransformer(
      * Extracts decimal places from class-level @FloatEquality annotation.
      */
     private fun getClassDecimalPlaces(dataClass: IrClass): Int? {
-        return dataClass.annotations
-            .find { it.type.classFqName == FLOAT_EQUALITY_ANNOTATION }
-            ?.getValueArgument(0)
-            ?.let { (it as? IrConstImpl)?.value as? Int }
+        return dataClass.annotations.getDecimalPlaces()
     }
 
     /**
      * Extracts decimal places from field-level @FloatEquality annotation.
      */
     private fun getFieldDecimalPlaces(parameter: IrValueParameter): Int? {
-        return parameter.annotations
-            .find { it.type.classFqName == FLOAT_EQUALITY_ANNOTATION }
-            ?.getValueArgument(0)
-            ?.let { (it as? IrConstImpl)?.value as? Int }
+        return parameter.annotations.getDecimalPlaces()
+    }
+
+    private fun List<IrConstructorCall>.getDecimalPlaces(): Int? {
+        val annotationDefinition = find { it.type.classFqName == FLOAT_EQUALITY_ANNOTATION } ?: return null
+        return annotationDefinition.getValueArgument(0)?.let { (it as? IrConstImpl)?.value as? Int }
     }
 } 
